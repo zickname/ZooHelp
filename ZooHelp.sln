@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{309CAE6C-FAC8-460F-8B2C-12E2652EACDB}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+		Directory.Builder.props = Directory.Builder.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{221539D4-6FDF-4F0B-B1D2-95874CED223F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZooHelp.API", "src\ZooHelp.API\ZooHelp.API.csproj", "{9024CCE1-28FF-4DCF-8BA0-A98150A7FF8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZooHelp.Domain", "src\ZooHelp.Domain\ZooHelp.Domain.csproj", "{A208CC45-476D-41CF-95BA-D4F6B59811F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZooHelp.Application", "src\ZooHelp.Application\ZooHelp.Application.csproj", "{6430F8F1-6B84-4B26-8289-45445709F8A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZooHelp.Infrastructure", "src\ZooHelp.Infrastructure\ZooHelp.Infrastructure.csproj", "{69162655-DA07-4849-AE30-41284C9DCAED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9024CCE1-28FF-4DCF-8BA0-A98150A7FF8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9024CCE1-28FF-4DCF-8BA0-A98150A7FF8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9024CCE1-28FF-4DCF-8BA0-A98150A7FF8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9024CCE1-28FF-4DCF-8BA0-A98150A7FF8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A208CC45-476D-41CF-95BA-D4F6B59811F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A208CC45-476D-41CF-95BA-D4F6B59811F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A208CC45-476D-41CF-95BA-D4F6B59811F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A208CC45-476D-41CF-95BA-D4F6B59811F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6430F8F1-6B84-4B26-8289-45445709F8A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6430F8F1-6B84-4B26-8289-45445709F8A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6430F8F1-6B84-4B26-8289-45445709F8A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6430F8F1-6B84-4B26-8289-45445709F8A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69162655-DA07-4849-AE30-41284C9DCAED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69162655-DA07-4849-AE30-41284C9DCAED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69162655-DA07-4849-AE30-41284C9DCAED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69162655-DA07-4849-AE30-41284C9DCAED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9024CCE1-28FF-4DCF-8BA0-A98150A7FF8F} = {221539D4-6FDF-4F0B-B1D2-95874CED223F}
+		{A208CC45-476D-41CF-95BA-D4F6B59811F2} = {221539D4-6FDF-4F0B-B1D2-95874CED223F}
+		{6430F8F1-6B84-4B26-8289-45445709F8A8} = {221539D4-6FDF-4F0B-B1D2-95874CED223F}
+		{69162655-DA07-4849-AE30-41284C9DCAED} = {221539D4-6FDF-4F0B-B1D2-95874CED223F}
+	EndGlobalSection
+EndGlobal
