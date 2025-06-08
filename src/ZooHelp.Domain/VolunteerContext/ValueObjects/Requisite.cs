@@ -1,6 +1,6 @@
 using CSharpFunctionalExtensions;
 
-using ZooHelp.Domain.SharedContext.ValueObjects;
+using ZooHelp.Domain.Shared.ValueObjects;
 
 namespace ZooHelp.Domain.VolunteerContext.ValueObjects;
 
@@ -8,24 +8,25 @@ public sealed class Requisite : ComparableValueObject
 {
     public Name Name { get; }
 
-    public Description InfoOfTransfer { get; }
+    public Description Description { get; }
 
-    private Requisite(Name name, Description infoOfTransfer)
+    //ef core
+    private Requisite() { }
+
+    private Requisite(Name name, Description description)
     {
         Name = name;
-        InfoOfTransfer = infoOfTransfer;
+        Description = description;
     }
 
     public static Result<Requisite> Create(Name name, Description infoOfTransfer)
     {
-        var requisites = new Requisite(name, infoOfTransfer);
-
-        return Result.Success<Requisite>(requisites);
+        return Result.Success<Requisite>(new Requisite(name, infoOfTransfer));
     }
 
     protected override IEnumerable<IComparable> GetComparableEqualityComponents()
     {
         yield return Name.Value;
-        yield return InfoOfTransfer;
+        yield return Description;
     }
 }

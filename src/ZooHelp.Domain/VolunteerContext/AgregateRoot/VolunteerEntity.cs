@@ -1,37 +1,34 @@
 using CSharpFunctionalExtensions;
 
-using ZooHelp.Domain.SharedContext.ValueObjects;
+using ZooHelp.Domain.Shared.ValueObjects;
 using ZooHelp.Domain.VolunteerContext.Entities;
+using ZooHelp.Domain.VolunteerContext.Enums;
 using ZooHelp.Domain.VolunteerContext.ValueObjects;
 using ZooHelp.Domain.VolunteerContext.ValueObjects.Ids;
 
-using PhoneNumber = ZooHelp.Domain.VolunteerContext.ValueObjects.PhoneNumber;
+using PhoneNumber = ZooHelp.Domain.Shared.ValueObjects.PhoneNumber;
 
 namespace ZooHelp.Domain.VolunteerContext.AgregateRoot;
 
 public class VolunteerEntity : Entity<VolunteerId>
 {
-    private readonly List<SocialNetwork> _socialNetworks = [];
-
-    private readonly List<PetEntity> _allPets = [];
-
-    public VolunteerId Id { get; private set; }
+    private readonly List<PetEntity> _pets = [];
 
     public Name Name { get; private set; }
 
     public Email Email { get; private set; }
 
-    public Description Description { get; private set; }
+    public Description? Description { get; private set; }
 
     public int ExperienceYears { get; private set; }
 
-    public PhoneNumber PhoneNumber { get; }
+    public PhoneNumber PhoneNumber { get; private set; }
 
-    public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
+    public SocialNetworkList SocialNetworks { get; private set; }
 
-    public Requisite Requisite { get; }
+    public RequisiteList RequisitesForHelp { get; private set; }
 
-    public IReadOnlyList<PetEntity> AllPets => _allPets;
+    public IReadOnlyList<PetEntity> Pets => _pets;
 
     public IReadOnlyList<PetEntity> PetsNeedsHelp => GetPetsNeedsHelp();
 
@@ -39,14 +36,16 @@ public class VolunteerEntity : Entity<VolunteerId>
 
     public IReadOnlyList<PetEntity> PetsFoundHome => GetPetsFoundHome();
 
+    //ef core
+    private VolunteerEntity() { }
+
     private VolunteerEntity(
         VolunteerId id,
         Name name,
         Email email,
         Description description,
         int experienceYears,
-        PhoneNumber phoneNumber,
-        Requisite requisite)
+        PhoneNumber phoneNumber)
     {
         Id = id;
         Name = name;
@@ -54,7 +53,6 @@ public class VolunteerEntity : Entity<VolunteerId>
         Description = description;
         ExperienceYears = experienceYears;
         PhoneNumber = phoneNumber;
-        Requisite = requisite;
     }
 
     public static Result<VolunteerEntity> Create(
@@ -63,8 +61,7 @@ public class VolunteerEntity : Entity<VolunteerId>
         Email email,
         Description description,
         int experienceYears,
-        PhoneNumber phoneNumber,
-        Requisite helpDetails)
+        PhoneNumber phoneNumber)
     {
         if (experienceYears < 0)
             return Result.Failure<VolunteerEntity>("Experience years cannot be negative.");
@@ -76,49 +73,48 @@ public class VolunteerEntity : Entity<VolunteerId>
                 email,
                 description,
                 experienceYears,
-                phoneNumber,
-                helpDetails);
+                phoneNumber);
 
         return Result.Success(volunteerEntity);
     }
 
-    public Result AddSocialNetwork(SocialNetwork socialNetwork)
+    public void UpdateRequisitesForHelp(IEnumerable<Requisite> requisites)
     {
-        if (_socialNetworks.Contains(socialNetwork))
-            return Result.Failure("Social network already exists in the volunteer's list.");
+        RequisitesForHelp = RequisiteList.Create(requisites);
+    }
 
-        _socialNetworks.Add(socialNetwork);
-
-        return Result.Success();
+    public void UpdateSocialNetworkList(IEnumerable<SocialNetwork> socialNetworkList)
+    {
+        SocialNetworks = SocialNetworkList.Create(socialNetworkList);
     }
 
     public Result AddPet(PetEntity pet)
     {
-        if (_allPets.Contains(pet))
+        if (_pets.Contains(pet))
             return Result.Failure("Pet already exists in the volunteer's list.");
 
-        _allPets.Add(pet);
+        _pets.Add(pet);
 
         return Result.Success();
     }
 
     private IReadOnlyList<PetEntity> GetPetsNeedsHelp()
     {
-        return _allPets
+        return _pets
             .Where(p => p.HelpStatus is HelpStatus.NeedHelp)
             .ToList();
     }
 
     private IReadOnlyList<PetEntity> GetPetsLookingForHome()
     {
-        return _allPets
+        return _pets
             .Where(p => p.HelpStatus is HelpStatus.LookingHome)
             .ToList();
     }
 
     private IReadOnlyList<PetEntity> GetPetsFoundHome()
     {
-        return _allPets
+        return _pets
             .Where(p => p.HelpStatus is HelpStatus.FoundHome)
             .ToList();
     }

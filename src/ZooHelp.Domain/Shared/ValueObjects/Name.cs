@@ -1,18 +1,23 @@
 using CSharpFunctionalExtensions;
 
-namespace ZooHelp.Domain.SharedContext.ValueObjects;
+namespace ZooHelp.Domain.Shared.ValueObjects;
 
 public class Name : ComparableValueObject
 {
-    private const int MAX_NAME_LENGHTS = 100;
+    public const int MAX_LENGHTS = 100;
 
     public string Value { get; }
+
+    //ef core
+    private Name()
+    {
+    }
 
     private Name(string value) => Value = value;
 
     public static Result<Name> Create(string name)
     {
-        if (string.IsNullOrWhiteSpace(name) || name.Length > MAX_NAME_LENGHTS)
+        if (string.IsNullOrWhiteSpace(name) || name.Length > MAX_LENGHTS)
             return Result.Failure<Name>("Name is too long");
 
         var validName = new Name(name);

@@ -1,12 +1,17 @@
 using CSharpFunctionalExtensions;
 
-namespace ZooHelp.Domain.SharedContext.ValueObjects;
+namespace ZooHelp.Domain.Shared.ValueObjects;
 
 public sealed class TransferDetails
 {
     public string Name { get; }
 
     public string Description { get; }
+
+    //ef core
+    private TransferDetails()
+    {
+    }
 
     private TransferDetails(string name, string description)
     {

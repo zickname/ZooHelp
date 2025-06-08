@@ -1,6 +1,6 @@
 using CSharpFunctionalExtensions;
 
-using ZooHelp.Domain.SharedContext.ValueObjects;
+using ZooHelp.Domain.Shared.ValueObjects;
 
 namespace ZooHelp.Domain.VolunteerContext.ValueObjects;
 

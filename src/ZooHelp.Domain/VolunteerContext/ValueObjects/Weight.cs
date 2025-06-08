@@ -4,19 +4,23 @@ namespace ZooHelp.Domain.VolunteerContext.ValueObjects;
 
 public sealed class Weight : ComparableValueObject
 {
-    public float Value { get; }
+    public const int MAX_VAlUE = 500_000;
 
-    private Weight(float value) => Value = value;
+    public int Value { get; }
 
-    public static Result<Weight> Create(float weight)
+    private Weight() { }
+
+    private Weight(int value) => Value = value;
+
+    public static Result<Weight> Create(int grams)
     {
-        if (weight <= 0)
-            return Result.Failure<Weight>("Weight must be greater than 0");
+        if (grams <= 0 || grams > MAX_VAlUE)
+            return Result.Failure<Weight>($"Weight must be between 1 and {MAX_VAlUE} grams.");
 
-        var validWeight = new Weight(weight);
-
-        return Result.Success(validWeight);
+        return Result.Success(new Weight(grams));
     }
+
+    public double ToKilograms() => Value / 1000.0;
 
     protected override IEnumerable<IComparable> GetComparableEqualityComponents()
     {

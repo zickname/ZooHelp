@@ -4,6 +4,8 @@ namespace ZooHelp.Domain.VolunteerContext.ValueObjects;
 
 public sealed class Address : ComparableValueObject
 {
+    public const int MAX_LENGTH = 50;
+
     public string Country { get; }
 
     public string City { get; }
@@ -12,7 +14,7 @@ public sealed class Address : ComparableValueObject
 
     public string House { get; }
 
-    public string Apartment { get; }
+    public string? Apartment { get; }
 
     public string ZipCode { get; }
 
@@ -21,7 +23,7 @@ public sealed class Address : ComparableValueObject
         string city,
         string street,
         string house,
-        string apartment,
+        string? apartment,
         string zipCode
     )
     {
@@ -44,18 +46,36 @@ public sealed class Address : ComparableValueObject
     {
         if (string.IsNullOrWhiteSpace(country))
             return Result.Failure<Address>("Country cannot be empty.");
+        
+        if (country.Length > MAX_LENGTH)
+            return Result.Failure<Address>($"Country cannot be longer than {MAX_LENGTH} characters.");
 
         if (string.IsNullOrWhiteSpace(city))
             return Result.Failure<Address>("City cannot be empty.");
+        
+        if (city.Length > MAX_LENGTH)
+            return Result.Failure<Address>($"City cannot be longer than {MAX_LENGTH} characters.");
 
         if (string.IsNullOrWhiteSpace(street))
             return Result.Failure<Address>("Street cannot be empty.");
+        
+        if (street.Length > MAX_LENGTH)
+            return Result.Failure<Address>($"Street cannot be longer than {MAX_LENGTH} characters.");
 
         if (string.IsNullOrWhiteSpace(house))
             return Result.Failure<Address>("House cannot be empty.");
+        
+        if (house.Length > MAX_LENGTH)
+            return Result.Failure<Address>($"House cannot be longer than {MAX_LENGTH} characters.");
 
-        if (string.IsNullOrWhiteSpace(apartment))
-            return Result.Failure<Address>("Apartment cannot be empty.");
+        if (!string.IsNullOrWhiteSpace(apartment) && apartment.Length > MAX_LENGTH)
+            return Result.Failure<Address>($"Apartment cannot be longer than {MAX_LENGTH} characters.");
+
+        if (string.IsNullOrWhiteSpace(zipCode))
+            return Result.Failure<Address>("ZipCode cannot be empty.");
+        
+        if (zipCode.Length > MAX_LENGTH)
+            return Result.Failure<Address>($"ZipCode cannot be longer than {MAX_LENGTH} characters.");
 
         var address = new Address(
             country,

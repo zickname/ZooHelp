@@ -1,18 +1,21 @@
 using CSharpFunctionalExtensions;
 
-namespace ZooHelp.Domain.SharedContext.ValueObjects;
+namespace ZooHelp.Domain.Shared.ValueObjects;
 
 public sealed class Description : ComparableValueObject
 {
-    private const int MAX_NAME_LENGHTS = 500;
+    public const int MAX_LENGHTS = 500;
 
     public string Value { get; }
+
+    //ef core
+    private Description() { }
 
     private Description(string value) => Value = value;
 
     public static Result<Description> Create(string description)
     {
-        if (string.IsNullOrWhiteSpace(description))
+        if (string.IsNullOrWhiteSpace(description) || description.Length > MAX_LENGHTS)
             return Result.Failure<Description>("Description cannot be null or empty.");
 
         var validDescription = new Description(description);

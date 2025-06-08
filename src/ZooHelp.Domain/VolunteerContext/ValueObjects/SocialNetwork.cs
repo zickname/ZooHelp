@@ -1,14 +1,19 @@
 using CSharpFunctionalExtensions;
 
-using ZooHelp.Domain.SharedContext.ValueObjects;
+using ZooHelp.Domain.Shared.ValueObjects;
 
 namespace ZooHelp.Domain.VolunteerContext.ValueObjects;
 
 public sealed class SocialNetwork : ComparableValueObject
 {
+    public const int MAX_LENGTH = 250;
+
     public string Link { get; }
 
     public Name Name { get; }
+
+    //ef core
+    private SocialNetwork() { }
 
     private SocialNetwork(string link, Name name)
     {
@@ -18,8 +23,8 @@ public sealed class SocialNetwork : ComparableValueObject
 
     public static Result<SocialNetwork> Create(string link, Name name)
     {
-        if (string.IsNullOrWhiteSpace(link))
-            return Result.Failure<SocialNetwork>("Link cannot be null or empty.");
+        if (string.IsNullOrWhiteSpace(link) || link.Length > MAX_LENGTH)
+            return Result.Failure<SocialNetwork>("Social network link is too long");
 
         var validSocialNetwork = new SocialNetwork(link, name);
 

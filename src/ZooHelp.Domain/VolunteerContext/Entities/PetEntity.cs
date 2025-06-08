@@ -1,12 +1,13 @@
 using CSharpFunctionalExtensions;
 
-using ZooHelp.Domain.SharedContext.ValueObjects;
+using ZooHelp.Domain.Shared.ValueObjects;
 using ZooHelp.Domain.SpeciesContext.Entities;
+using ZooHelp.Domain.VolunteerContext.Enums;
 using ZooHelp.Domain.VolunteerContext.ValueObjects;
 using ZooHelp.Domain.VolunteerContext.ValueObjects.Ids;
 
 using Color = ZooHelp.Domain.VolunteerContext.ValueObjects.Color;
-using PhoneNumber = ZooHelp.Domain.VolunteerContext.ValueObjects.PhoneNumber;
+using PhoneNumber = ZooHelp.Domain.Shared.ValueObjects.PhoneNumber;
 
 namespace ZooHelp.Domain.VolunteerContext.Entities;
 
@@ -14,7 +15,7 @@ public sealed class PetEntity : Entity<PetId>
 {
     public Name Name { get; private set; }
 
-    public Breed Breed { get; private set; }
+    public BreedEntity Breed { get; private set; }
 
     public Description Description { get; private set; }
 
@@ -38,14 +39,17 @@ public sealed class PetEntity : Entity<PetId>
 
     public HelpStatus HelpStatus { get; private set; }
 
-    public Requisite Requisites { get; private set; }
+    public RequisiteList RequisitesForHelp { get; private set; }
 
     public DateTimeOffset CreatedAt = DateTimeOffset.Now;
+
+    //ef core
+    private PetEntity() { }
 
     private PetEntity(
         PetId id,
         Name name,
-        Breed breed,
+        BreedEntity breed,
         Description description,
         Color color,
         Height height,
@@ -56,8 +60,7 @@ public sealed class PetEntity : Entity<PetId>
         bool isCastrated,
         DateOfBirth birthDate,
         bool isVaccinated,
-        HelpStatus helpStatus,
-        Requisite requisites) : base(id)
+        HelpStatus helpStatus)
     {
         Name = name;
         Breed = breed;
@@ -72,13 +75,12 @@ public sealed class PetEntity : Entity<PetId>
         BirthDate = birthDate;
         IsVaccinated = isVaccinated;
         HelpStatus = helpStatus;
-        Requisites = requisites;
     }
 
     public static Result<PetEntity> Create(
         PetId id,
         Name name,
-        Breed breed,
+        BreedEntity breedEntity,
         Description description,
         Color color,
         Height height,
@@ -96,7 +98,7 @@ public sealed class PetEntity : Entity<PetId>
             new PetEntity(
                 id,
                 name,
-                breed,
+                breedEntity,
                 description,
                 color,
                 height,
@@ -107,7 +109,11 @@ public sealed class PetEntity : Entity<PetId>
                 isCastrated,
                 birthDate,
                 isVaccinated,
-                status,
-                requisites));
+                status));
+    }
+
+    public void UpdateRequisitesForHelp(IEnumerable<Requisite> requisites)
+    {
+        RequisitesForHelp = RequisiteList.Create(requisites);
     }
 }
