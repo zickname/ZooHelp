@@ -4,14 +4,21 @@ namespace ZooHelp.Domain.VolunteerContext.ValueObjects;
 
 public sealed class Height : ComparableValueObject
 {
-    public float Value { get; }
+    public const int MAX_VAlUE = 100_000;
 
-    private Height(float value) => Value = value;
+    public int Value { get; }
 
-    public static Result<Height> Create(float height)
+    //ef core
+    private Height()
     {
-        if (height <= 0)
-            return Result.Failure<Height>("Height must be greater than 0");
+    }
+
+    private Height(int value) => Value = value;
+
+    public static Result<Height> Create(int height)
+    {
+        if (height <= 0 || height > MAX_VAlUE)
+            return Result.Failure<Height>($"Height must be between 1 and {MAX_VAlUE} grams.");
 
         var validHeight = new Height(height);
 

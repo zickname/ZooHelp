@@ -10,6 +10,11 @@ public class Email : ComparableValueObject
     private const string REGEX = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
     public string Value { get; }
 
+    //ef core
+    private Email()
+    {
+    }
+
     private Email(string email)
     {
         Value = email;

@@ -1,4 +1,4 @@
-namespace ZooHelp.Domain.VolunteerContext;
+namespace ZooHelp.Domain.VolunteerContext.Enums;
 
 public enum HelpStatus
 {

@@ -11,7 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="SharedContext\Constants\" />
+      <Folder Include="Shared\Constants\" />
     </ItemGroup>
 
 </Project>
